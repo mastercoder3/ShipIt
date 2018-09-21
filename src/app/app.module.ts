@@ -26,6 +26,8 @@ import { environment } from '../environments/environment';
 //Services
 import { AuthService } from './auth.service';
 import {AuthGaurdService} from './auth-gaurd.service';
+import { NavbarComponent } from './navbar/navbar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import {AuthGaurdService} from './auth-gaurd.service';
     DashboardComponent,
     HomeComponent,
     RecoverPasswordComponent,
+    NavbarComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
