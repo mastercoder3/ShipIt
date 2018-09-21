@@ -22,22 +22,143 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form>
+                            <form class="form-horizontal" [formGroup]="form" (ngSubmit)="submit(form)" *ngIf="!firstForm">
                                 <div class="row">
-                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="fname">First Name</label>
-                                            <input type="text" class="form-control" id="fname">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group" *ngIf="countries">
+                                            <ng-template #rt let-r="result" let-t="term">
+                                                <img [src]="'https://www.countryflags.io/' + r.code + '/shiny/32.png'" class="mr-1" style="width: 16px">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                              </ng-template>
+                                            <label for="destination">To</label>
+                                            <input type="text" class="form-control" id="destination" formControlName="destination"  #destination [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
                                         </fieldset>
                                     </div>
-                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                      <fieldset class="form-group">
-                                        <label for="lname">Last Name</label>
-                                        <input type="text" class="form-control" id="lname">
-                                    </fieldset>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group" *ngIf="countries">
+                                            <ng-template #rt let-r="result" let-t="term">
+                                                <img [src]="'https://www.countryflags.io/' + r.code + '/shiny/32.png'" class="mr-1" style="width: 16px">
+                                                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                                              </ng-template>
+                                            <label for="from">From</label>
+                                            <input type="text" class="form-control" id="from" formControlName="from"  #from [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
+                                        </fieldset>
                                     </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                          <fieldset>
+                                              <label for="actual_weight">Actual Weight</label>
+                                              <input type="number" formControlName="weight"  #weight class="form-control" id="actual_weight" >
+                                          </fieldset>
+                                          </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset>
+                                                <label for="length">Length</label>
+                                                <input type="number" formControlName="length"  #length class="form-control" id="length" >
+                                            </fieldset>
+                                          </div>
+                                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                              <fieldset>
+                                                  <label for="width">Width</label>
+                                                  <input type="number" formControlName="width"  #width class="form-control" id="width" >
+                                              </fieldset>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                                <fieldset>
+                                                    <label for="height">Height</label>
+                                                    <input type="number" formControlName="height"  #height class="form-control" id="height" >
+                                                </fieldset>
+                                            </div>
+                                    </div>
+                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Calculated Price</span></p>
+                                    <div class="row">
+                                      <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset>
+                                            <label for="readonlyInput">Price</label>
+                                            <input type="text" class="form-control" id="readonlyInput" readonly="readonly" value="$300">
+                                        </fieldset>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-xl-2 col-lg-2 col-md-2 mb-1" style="margin-right: 0; margin-left: auto;" >
+                                        <button type="submit" class="btn btn-primary btn-block" [disabled]="form.pristine || form.invalid" >Next</button>
+                                      </div>
                                     </div>
                             </form>
+                            <div class="form-horizontal"  *ngIf="!secondForm">
+                              <div *ngIf="thirdForm"> 
+                                <div class="row" >
+                                  <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset>
+                                        <label for="service">Select a Service</label>
+                                        <select class="form-control" id="service" [(ngModel)]="selected" >
+                                            <option value="Pickup & Drop Service" selected>Pickup & Drop Service</option>
+                                            <option value="Self Service">Self Service</option>
+                                          </select>
+                                          <br>
+                                          
+                                    </fieldset>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-2 col-lg-2 col-md-2 mb-1">
+                                        <button class="btn btn-primary btn-block" (click)="check()">Save</button>
+                                    </div>
+                                </div>
+                              </div>
+                                <div *ngIf="!thirdForm">
+                                    <form  [formGroup]="form1">
+                                      <div class="row">
+                                          <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                              <fieldset>
+                                                  <label for="paddress">Pickup Address</label>
+                                                  <input type="text" formControlName="paddress"  #paddress class="form-control" id="paddress" >
+                                              </fieldset>
+                                            </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                              <fieldset>
+                                                  <label for="daddress">Drop Off Address</label>
+                                                  <input type="text" formControlName="daddress"  #daddress class="form-control" id="daddress" >
+                                              </fieldset>
+                                            </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                              <fieldset>
+                                                  <label for="name">Name</label>
+                                                  <input type="text" formControlName="name"  #name class="form-control" id="name" >
+                                              </fieldset>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                                <fieldset>
+                                                    <label for="mobile">Mobile</label>
+                                                    <input type="text" formControlName="mobile"  #mobile class="form-control" id="mobile" >
+                                                </fieldset>
+                                              </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                              <fieldset>
+                                                  <label for="email">Email</label>
+                                                  <input type="email" formControlName="email"  #email class="form-control" id="email" >
+                                              </fieldset>
+                                            </div>
+                                            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                                <fieldset>
+                                                    <label for="units">Units</label>
+                                                    <input type="number" formControlName="units"  #units class="form-control" id="units" >
+                                                </fieldset>
+                                              </div>
+                                      </div>
+                                    </form>
+                                </div>
+                              </div>
                           </div>
                       </div>
                   </div>
