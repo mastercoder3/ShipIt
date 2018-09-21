@@ -4,6 +4,7 @@ import { FormGroup , Validators, FormBuilder} from '@angular/forms';
 import {ApiService} from './../api.service';
 import {AuthService} from './../auth.service';
 import {HelperService} from './../helper.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -16,9 +17,13 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   error: boolean=false;
   errMsg;
-  constructor(private router: Router, private fb: FormBuilder, private api: ApiService, private auth: AuthService, private helper: HelperService) { }
+  constructor(private router: Router, private fb: FormBuilder, private api: ApiService, private auth: AuthService, private toastr: ToastrService, private helper: HelperService) { }
 
   ngOnInit() {
+    if(localStorage.getItem('uid'))
+    {
+      this.router.navigate(['/dashboard/home']);
+    }
     this.form = this.fb.group({
       email: ['', Validators.compose([
         Validators.required,
@@ -34,11 +39,6 @@ export class LoginComponent implements OnInit {
   get f() { return this.form.controls; }
 
 
-
-  // open(content) {
-  //   this.modalService.open(content, {backdrop: 'static'})
-  // }
-
   onSubmit(email, password, content){
     if(localStorage.getItem('uid'))
       localStorage.removeItem('uid');
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
           .subscribe(data =>{
               if(data){
                 localStorage.setItem('uid', res.user.uid);
-                this.router.navigate(['/verification']);
+                this.router.navigate(['/dashboard/home']);
               }
               else{
                 this.error = true;
@@ -73,9 +73,10 @@ export class LoginComponent implements OnInit {
   resend(){
     this.auth.sendVerificationEmail()
       .then(data =>{
-        console.log("Email Sent");
+        this.helper.closeModel();
+          this.toastr.success('Verification', 'Email Sent! Check your inbox.');
       }, err=>{
-        console.log("Email Not Sent");
+        this.toastr.error('Error!', 'Email not Sent!');
       });
   }
 

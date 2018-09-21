@@ -22,20 +22,12 @@ export class AuthService {
     return this.auth.auth.currentUser.sendEmailVerification();
   }
 
-  getCurrentUser(){
-    return this.auth.auth.currentUser;
-  }
-
-  getCurrentUserEmailStatus(){
-      if(this.auth.auth.currentUser !== null)
-
-        return this.auth.auth.currentUser.emailVerified;
-      else
-        return false;
-  }
-
   setPersistance(){
     return this.auth.auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+  }
+
+  forgotPassword(email){
+    return this.auth.auth.sendPasswordResetEmail(email);
   }
 
 

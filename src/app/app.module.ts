@@ -1,12 +1,20 @@
 // Core
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {NgbPaginationModule, NgbAlertModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
 
 // Components
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterationComponent } from './registeration/registeration.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
+import { RecoverPasswordComponent } from './recover-password/recover-password.component';
+
 
 // FireBase
 import { AngularFireModule } from '@angular/fire';
@@ -17,19 +25,21 @@ import { environment } from '../environments/environment';
 
 //Services
 import { AuthService } from './auth.service';
-import { LoginComponent } from './login/login.component';
-import { RegisterationComponent } from './registeration/registeration.component';
-import { VerificationComponent } from './verification/verification.component';
+import {AuthGaurdService} from './auth-gaurd.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterationComponent,
-    VerificationComponent
+    DashboardComponent,
+    HomeComponent,
+    RecoverPasswordComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -43,11 +53,14 @@ import { VerificationComponent } from './verification/verification.component';
       {path: '' , redirectTo: 'login', pathMatch: 'full'},
       {path: 'login', component: LoginComponent},
       {path: 'registeration', component: RegisterationComponent},
-      {path: 'verification', component: VerificationComponent}
+      {path: 'recover-password', component: RecoverPasswordComponent},
+      {path: 'dashboard', component: DashboardComponent, children: [
+        {path: 'home', component: HomeComponent}
+      ], canActivate: [AuthGaurdService]}
     ])
     
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGaurdService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

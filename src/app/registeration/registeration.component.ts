@@ -3,7 +3,6 @@ import {Router} from '@angular/router';
 import { FormGroup , Validators, FormBuilder} from '@angular/forms';
 import {AuthService} from './../auth.service';
 import {ApiService} from './../api.service';
-import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-registeration',
@@ -19,6 +18,11 @@ export class RegisterationComponent implements OnInit {
   constructor(private router: Router, private fb: FormBuilder, private auth: AuthService, private api: ApiService) { }
 
   ngOnInit() {
+    if(localStorage.getItem('uid'))
+    {
+      this.router.navigate(['/dashboard/home']);
+    }
+    
     this.form = this.fb.group({
       email: ['', Validators.compose([
         Validators.required,
