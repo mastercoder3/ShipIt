@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   firstForm: boolean = true;
   secondForm: boolean = false;
   thirdForm: boolean = true;
-  fourthForm: boolean = true;
+  fourthForm: boolean = false;
   selected;
 
   constructor(private helper: HelperService,
@@ -66,6 +66,7 @@ export class HomeComponent implements OnInit {
     if(this.selected === 'Pickup & Drop Service')
     {
       this.thirdForm = false;
+      this.fourthForm = true;
     }
   }
 

@@ -18,6 +18,15 @@ export class ApiService {
       return this.afs.doc('users/'+uid).valueChanges();
     }
 
+    //get User data with meta
+    getUserProfile(uid){
+      return this.afs.doc('users/'+uid).snapshotChanges();
+    }
+
+    //Update User
+    updateUser(uid,data){
+      return this.afs.doc('users/'+uid).set(data);
+    }
 
 
 }

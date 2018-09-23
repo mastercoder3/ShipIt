@@ -28,6 +28,8 @@ import { AuthService } from './auth.service';
 import {AuthGaurdService} from './auth-gaurd.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { SpinnerComponent } from './ui/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     RecoverPasswordComponent,
     NavbarComponent,
     SidebarComponent,
+    EditProfileComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +64,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
       {path: 'registeration', component: RegisterationComponent},
       {path: 'recover-password', component: RecoverPasswordComponent},
       {path: 'dashboard', component: DashboardComponent, children: [
-        {path: 'home', component: HomeComponent}
+        {path: 'home', component: HomeComponent},
+        {path: 'edit-profile', component: EditProfileComponent}
       ], canActivate: [AuthGaurdService]}
     ])
     

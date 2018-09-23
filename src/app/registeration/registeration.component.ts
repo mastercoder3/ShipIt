@@ -33,6 +33,7 @@ export class RegisterationComponent implements OnInit {
         Validators.required,
         Validators.minLength(6),
         Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,}$')
+        
       ])]
     });
   }

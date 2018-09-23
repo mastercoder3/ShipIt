@@ -1,0 +1,77 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-1">
+      <h3 class="content-header-title">Edit Profile Info</h3>
+  </div>
+  <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-10">
+      <div class="breadcrumb-wrapper col-12">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="/dashboard/home">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item"><a>User Profile</a>
+              </li>
+              <li class="breadcrumb-item active">Edit Profile
+              </li>
+          </ol>
+      </div>
+  </div>
+</div>
+
+
+<div class="content-body">
+  <section class="basic-elements">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Update Information</h4>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="row">
+                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1" id="imgDiv">
+                              <div class="col-xl-4 col-lg-6 col-md-12 mb-1" >
+                                  <fieldset>
+                                    <img src="{{user?.image || image}}"  alt="User Image">
+                                    <br>
+                                  </fieldset>
+                                  <fieldset id="browse">
+                                    <label class="custom-file-label" for="upload">Choose an Image</label>
+                                    <input type="file" class="custom-file-input" id="upload" (change)="upload($event)" accept=".png,.jpg">
+                                  </fieldset>
+                                </div>
+                          </div>
+                          <app-spinner *ngIf="showSpinner" style="margin-left: 30%"></app-spinner>
+                          <div class="col-xl-8 col-lg-6 col-md-12 mb-1" *ngIf="user">
+                              <div class="col-xl-10 col-lg-12 col-md-12 mb-1">
+                                  <fieldset class="form-group">
+                                      <label for="fname">First Name</label>
+                                      <input type="text" class="form-control" id="fname" [(ngModel)]="user.firstName">
+                                  </fieldset>
+                              </div>
+                              <div class="col-xl-10 col-lg-12 col-md-12 mb-1">
+                                <fieldset class="form-group">
+                                  <label for="lname">Last Name</label>
+                                  <input type="text" class="form-control" id="lname" [(ngModel)]="user.lastName">
+                              </fieldset>
+                              </div>
+                              <div class="col-xl-10 col-lg-12 col-md-12 mb-1">
+                                  <fieldset class="form-group">
+                                      <label for="contact">Contact #</label>
+                                      <input type="text" class="form-control" id="contact" [(ngModel)]="user.contact">
+                                  </fieldset>
+                              </div>
+                            </div>
+                            </div>
+                          <div class="row">
+                            <div id="save">
+                              <button type="button" class="btn btn-primary btn-min-width mr-1 mb-1" (click)="update()">Save</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+</section>
+</div>

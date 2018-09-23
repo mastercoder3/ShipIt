@@ -1,6 +1,6 @@
-<nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-light navbar-border">
+<nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-dark navbar-shadow navbar-border bg-blue-grey">
   <div class="navbar-wrapper">
-      <div class="navbar-header">
+      <div class="navbar-header bg-blue-grey">
           <ul class="nav navbar-nav flex-row">
               <li class="nav-item mobile-menu d-md-none mr-auto hidden-lg"><a class="nav-link nav-menu-main menu-toggle hidden-xs hidden-md"><i class="ft-menu font-large-1"></i></a></li>
               <li class="nav-item"><a class="navbar-brand"><img class="brand-logo" alt="stack admin logo" src="./../../assets/app-assets/images/logo/stack-logo.png">
@@ -130,10 +130,10 @@
                           <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center">Read all messages</a></li>
                       </ul>
                   </li>
-                  <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"><span class="avatar avatar-online"><img src="./assets/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span><span class="user-name">John Doe</span></a>
-                      <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="user-profile.html"><i class="ft-user"></i> Edit Profile</a><a class="dropdown-item" href="email-application.html"><i class="ft-mail"></i> My Inbox</a><a class="dropdown-item" href="user-cards.html"><i class="ft-check-square"></i> Task</a>
+                  <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"><span class="avatar avatar-online"><img src="{{user?.image || image}}" alt="avatar"><i></i></span><span class="user-name">{{user?.firstName}}</span></a>
+                      <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" routerLink="/dashboard/edit-profile"><i class="ft-user"></i> Edit Profile</a><a class="dropdown-item" href="email-application.html"><i class="ft-mail"></i> My Inbox</a><a class="dropdown-item" href="user-cards.html"><i class="ft-check-square"></i> Task</a>
                           <a
-                              class="dropdown-item" href="chat-application.html"><i class="ft-message-square"></i> Chats</a>
+                              class="dropdown-item" (click)=resetPassword(resetPass)><i class="ft-refresh-ccw"></i> Reset Password</a>
                               <div class="dropdown-divider"></div><a class="dropdown-item" (click)="logout()"><i class="ft-power"></i> Logout</a>
                       </div>
                   </li>
@@ -143,4 +143,30 @@
   </div>
 </nav>
 
-
+<ng-template #resetPass let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Password Reset</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Enter New Password</span></p>
+            <div class="card-body">
+                <input type="password" class="form-control" placeholder="Enter Old Password" [(ngModel)]="opassword">
+                <br>
+                <form [formGroup]="form" (ngSubmit)="reset(form)">
+                    <input type="password" class="form-control" formControlName="password" #password placeholder="Enter New Password" data-toggle="tooltip" data-placement="top"
+                    title="Passwords must have at least 8 characters and contain at least two of the following: uppercase letters, lowercase letters, numbers, and symbols.">
+                    <br>
+                    <input type="password" class="form-control" formControlName="rpassword" #rpassword placeholder="Re-Enter New Password" >
+                    <small style="color: red" *ngIf="(f.password.errors || f.rpassword.errors) &&  (password.value !== rpassword.value)">Invalid Password</small> <br>
+                    <br>
+                    <button class="btn btn-outline-danger btn-block" type="submit" [disabled]="form.pristine || form.invalid">Reset Password</button>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">close</button>
+        </div>
+</ng-template>
