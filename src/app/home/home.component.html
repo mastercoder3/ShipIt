@@ -48,7 +48,7 @@
                                     <div class="row">
                                         <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                           <fieldset>
-                                              <label for="actual_weight">Actual Weight</label>
+                                              <label for="actual_weight">Actual Weight (kg)</label>
                                               <input type="number" formControlName="weight"  #weight class="form-control" id="actual_weight" >
                                           </fieldset>
                                           </div>
@@ -57,31 +57,22 @@
                                     <div class="row">
                                         <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                             <fieldset>
-                                                <label for="length">Length</label>
+                                                <label for="length">Length (cm)</label>
                                                 <input type="number" formControlName="length"  #length class="form-control" id="length" >
                                             </fieldset>
                                           </div>
                                           <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                               <fieldset>
-                                                  <label for="width">Width</label>
+                                                  <label for="width">Width (cm)</label>
                                                   <input type="number" formControlName="width"  #width class="form-control" id="width" >
                                               </fieldset>
                                             </div>
                                             <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                                 <fieldset>
-                                                    <label for="height">Height</label>
+                                                    <label for="height">Height (cm)</label>
                                                     <input type="number" formControlName="height"  #height class="form-control" id="height" >
                                                 </fieldset>
                                             </div>
-                                    </div>
-                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Calculated Price</span></p>
-                                    <div class="row">
-                                      <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                        <fieldset>
-                                            <label for="readonlyInput">Price</label>
-                                            <input type="text" class="form-control" id="readonlyInput" readonly="readonly" value="$300">
-                                        </fieldset>
-                                      </div>
                                     </div>
                                     <div class="row">
                                       <div class="col-xl-2 col-lg-2 col-md-2 mb-1" style="margin-right: 0; margin-left: auto;" >
@@ -89,8 +80,19 @@
                                       </div>
                                     </div>
                             </form>
+                            <div *ngIf="firstForm">
+                            <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Calculated Weight</span></p>
+                            <div class="row">
+                              <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <fieldset>
+                                    <label for="readonlyInput">Volumertic Weight</label>
+                                    <input type="text" class="form-control" id="readonlyInput" readonly="readonly" [ngModel]="getWeight()">
+                                </fieldset>
+                              </div>
+                            </div>
+                            </div>
                             <div class="form-horizontal"  *ngIf="secondForm">
-                              <div *ngIf="thirdForm"> 
+                              <!-- <div *ngIf="thirdForm"> 
                                 <div class="row" >
                                   <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset>
@@ -109,7 +111,7 @@
                                         <button class="btn btn-primary btn-block" (click)="check()">Save</button>
                                     </div>
                                 </div>
-                              </div>
+                              </div> -->
                                 <div *ngIf="fourthForm">
                                     <form  [formGroup]="form1">
                                       <div class="row">

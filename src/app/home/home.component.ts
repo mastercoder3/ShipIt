@@ -21,6 +21,9 @@ export class HomeComponent implements OnInit {
   thirdForm: boolean = true;
   fourthForm: boolean = false;
   selected;
+  vweight: number = 0;
+  order;
+  address;
 
   constructor(private helper: HelperService,
     private router: Router, private fb: FormBuilder
@@ -50,16 +53,32 @@ export class HomeComponent implements OnInit {
         email: ['', Validators.compose([Validators.required, Validators.email])],
         units: [0, Validators.required]
       });
+
   }
 
   get f() { return this.form.controls; }
 
   submit(form){
-    if(form.valid === true)
+    if(form.valid === true && 
+      (form.value.weight >0 && form.value.length >0 && form.value.width>0 && form.value.height>0) )
     {
+      this.order = {
+        to: form.value.destination,
+        from: form.value.from,
+        weight: (this.getWeight()>form.value.weight)? this.getWeight() : form.value.weight,
+        length: form.value.length,
+        width: form.value.width,
+        height: form.value.height
+      };
       this.firstForm = false;
       this.secondForm = true;
+      this.fourthForm = true;
+
     }
+  }
+  
+  getWeight(){
+    return (this.form.value.length*this.form.value.width*this.form.value.height)/5000;
   }
 
   check(){

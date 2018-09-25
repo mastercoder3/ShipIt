@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {NgbPaginationModule, NgbAlertModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import {HttpModule} from '@angular/http';
+import { FilterPipeModule } from 'ngx-filter-pipe';
 // Components
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -30,6 +31,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { SpinnerComponent } from './ui/spinner/spinner.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { ModifyUserComponent } from './modify-user/modify-user.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { PricingComponent } from './pricing/pricing.component';
+import { RatesComponent } from './rates/rates.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +49,11 @@ import { SpinnerComponent } from './ui/spinner/spinner.component';
     SidebarComponent,
     EditProfileComponent,
     SpinnerComponent,
+    AddUserComponent,
+    ModifyUserComponent,
+    AdminLoginComponent,
+    PricingComponent,
+    RatesComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +62,7 @@ import { SpinnerComponent } from './ui/spinner/spinner.component';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    FilterPipeModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
@@ -62,10 +74,16 @@ import { SpinnerComponent } from './ui/spinner/spinner.component';
       {path: '' , redirectTo: 'login', pathMatch: 'full'},
       {path: 'login', component: LoginComponent},
       {path: 'registeration', component: RegisterationComponent},
+      {path: 'admin-login', component: AdminLoginComponent},
       {path: 'recover-password', component: RecoverPasswordComponent},
       {path: 'dashboard', component: DashboardComponent, children: [
         {path: 'home', component: HomeComponent},
-        {path: 'edit-profile', component: EditProfileComponent}
+        {path: 'edit-profile', component: EditProfileComponent},
+        {path: 'add-user', component: AddUserComponent},
+        {path: 'modify-user', component: ModifyUserComponent},
+        {path: 'pricing', component: PricingComponent},
+        {path: 'rates/:id', component: RatesComponent},
+        {path: 'rates', component: RatesComponent}
       ], canActivate: [AuthGaurdService]}
     ])
     

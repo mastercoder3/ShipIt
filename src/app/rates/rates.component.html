@@ -1,0 +1,120 @@
+<div class="content-header row">
+    <div class="content-header-left col-md-6 col-12 mb-1">
+        <h3 class="content-header-title">Pricing</h3>
+    </div>
+    <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-12">
+        <div class="breadcrumb-wrapper col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/dashboard/home">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item" ><a  routerLink="/dashboard/pricing">Pricing</a>
+                </li>
+                <li class="breadcrumb-item"><a>Rates</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+  </div>
+
+  
+<div class="content-body">
+    <section id="configuration">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Pricing</h4>
+            </div>
+            <div class="card-content collapse show">
+              <div class="card-body card-dashboard">
+                <form [formGroup]="form" (ngSubmit)="Add(form)">
+                  <div class="row">
+                      <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                              <label for="minweight">Min Weight</label>
+                              <input type="number" class="form-control" id="minweight" formControlName="minweight" #minweight >
+                          </fieldset>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                          <fieldset class="form-group" >
+                              <label for="maxweight">Max Weight</label>
+                              <input type="number" class="form-control" id="maxweight" formControlName="maxweight" #maxweight >
+                          </fieldset>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                          <fieldset class="form-group" >
+                              <label for="price">Price</label>
+                              <input type="number" class="form-control" id="price" formControlName="price" #price >
+                          </fieldset>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-xl-2 col-lg-2 col-md-2 mb-1" style="margin-left: auto; margin-right: 0;">
+                          <fieldset class="form-group" >
+                              <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid || form.pristine">Add</button>
+                          </fieldset>
+                      </div>
+                  </div>
+                </form>
+                  <app-spinner *ngIf="showSpinner"></app-spinner>
+                  <input type="number"
+                        class="form-control" [(ngModel)]="userFilter.maxweight" placeholder="Search by Max Weight"  *ngIf="!showSpinner" style="max-width: 300px">
+                        <br>
+                  <div class="table-responsive">
+                    <table class="table" *ngIf="!showSpinner">
+                      <thead>
+                        <tr >
+                          <th>Min Weight</th>
+                          <th>Max Weight</th>
+                          <th>Price</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of items | filterBy: userFilter" >
+                          <th scope="row">{{item.minweight}}</th>
+                          <td class="small">{{item.maxweight}}</td>
+                          <td>{{item.price}}</td>
+                          <td class="small">
+                              <span style="margin-left: 6px;"></span>
+                            <a style="color: green;" (click)="edit(item, editRates)"><i class="ft-edit"></i></a>
+                            <span style="margin-left: 6px;"></span>
+                            <a style="color: red" (click)="delete(item)"><i class="ft-trash-2"></i></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <ng-template #editRates let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Edit Rates</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Enter Valid Data</span></p>
+          <div class="card-body">
+              <input type="number" class="form-control" [(ngModel)]="newItems.minweight">
+              <br>
+              <input type="number" class="form-control" [(ngModel)]="newItems.maxweight">
+              <br>
+              <input type="number"  class="form-control" [(ngModel)]="newItems.price">
+              <br>
+              <button class="btn btn-outline-danger btn-block" (click)="update()">Update</button>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">close</button>
+      </div>
+    </ng-template>
+  

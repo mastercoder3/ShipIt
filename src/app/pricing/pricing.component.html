@@ -1,0 +1,92 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-1">
+      <h3 class="content-header-title">Pricing</h3>
+  </div>
+  <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-12">
+      <div class="breadcrumb-wrapper col-12">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="/dashboard/home">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item"><a>Pricing</a>
+              </li>
+          </ol>
+      </div>
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="configuration">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Pricing</h4>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body card-dashboard">
+                <form [formGroup]="form" (ngSubmit)="Add(form)">
+                  <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                      <fieldset class="form-group" *ngIf="countries">
+                          <ng-template #rt let-r="result" let-t="term">
+                              <img [src]="'https://www.countryflags.io/' + r.code + '/shiny/32.png'" class="mr-1" style="width: 16px">
+                              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                            </ng-template>
+                          <label for="destination">To</label>
+                          <input type="text" class="form-control" id="destination" formControlName="destination" #destination  [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
+                      </fieldset>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                      <fieldset class="form-group" *ngIf="countries">
+                          <ng-template #rt let-r="result" let-t="term">
+                              <img [src]="'https://www.countryflags.io/' + r.code + '/shiny/32.png'" class="mr-1" style="width: 16px">
+                              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                            </ng-template>
+                          <label for="from">From</label>
+                          <input type="text" class="form-control" id="from"  formControlName="from" #from [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
+                      </fieldset>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-2 mb-1">
+                      <fieldset class="form-group" *ngIf="countries" style="margin-top: 5px;">
+                          <label for=""></label>
+                          <button type="submit" class="btn btn-primary btn-block" >Add</button>
+                      </fieldset>
+                  </div>
+                </div>
+                </form>
+              
+                <app-spinner *ngIf="showSpinner"></app-spinner>
+                <input type="text"
+                      class="form-control" [(ngModel)]="userFilter.to" placeholder="Search User..."  *ngIf="!showSpinner" style="max-width: 300px">
+                      <br>
+                <div class="table-responsive">
+                  <table class="table" *ngIf="!showSpinner">
+                    <thead>
+                      <tr >
+                        <th>To</th>
+                        <th>From</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of items | filterBy:userFilter">
+                        <th scope="row">{{item.to}}</th>
+                        <td class="small">{{item.from}}</td>
+                        <td class="small">
+                            <span style="margin-left: 6px;"></span>
+                          <a style="color: green;" (click)="edit(item)"><i class="ft-edit"></i></a>
+                          <span style="margin-left: 6px;"></span>
+                          <a style="color: red" (click)="delete(item)"><i class="ft-trash-2"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

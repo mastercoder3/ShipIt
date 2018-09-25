@@ -35,7 +35,27 @@ export class HelperService {
   handleError (error: Response | any) {
     console.error(error.message || error);
     return Observable.throw(error.message || error);
-    } 
+    }
+    
+  extractPrivilegs(data){
+    return data.split(',');
+  }
+
+  setPrivilege(data){
+    let privilege = '';
+    if(data.c1 === true)
+      privilege+="Ir,";
+    if(data.c2 === true)
+      privilege+="c,";
+    if(data.c3 === true)
+      privilege+="hr,";
+    if(data.c4 === true)
+      privilege+="tr,";
+    if(data.c5 === true)
+      privilege+="mo";
+
+    return privilege;
+  }
 
 
 }

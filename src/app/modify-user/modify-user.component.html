@@ -1,0 +1,152 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-1">
+      <h3 class="content-header-title">Modify Users</h3>
+  </div>
+  <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-12">
+      <div class="breadcrumb-wrapper col-12">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="/dashboard/home">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item"><a>Users</a>
+              </li>
+              <li class="breadcrumb-item active">Modify Users
+              </li>
+          </ol>
+      </div>
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="configuration">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Users Data</h4>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body card-dashboard">
+                <app-spinner *ngIf="showSpinner"></app-spinner>
+                <input type="text"
+                      class="form-control" [(ngModel)]="userFilter.email" placeholder="Search User..."  *ngIf="!showSpinner" style="max-width: 300px">
+                      <br>
+                <div class="table-responsive">
+                  <table class="table" *ngIf="!showSpinner">
+                    <thead>
+                      <tr >
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>CNIC</th>
+                        <th>Branch</th>
+                        <th>Detail</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of items | filterBy:userFilter">
+                        <th scope="row">{{item.firstName}}</th>
+                        <td class="small">{{item.email}}</td>
+                        <td class="small">{{item.cnic}}</td>
+                        <td class="small">{{item.branchAddress}}</td>
+                        <td class="small"><p>{{item.detail}}</p></td>
+                        <td class="small">
+                            <span style="margin-left: 6px;"></span>
+                          <a style="color: green;" (click)="edit(Edit, item)"><i class="ft-edit"></i></a>
+                          <span style="margin-left: 6px;"></span>
+                          <a style="color: red" (click)="delete(item)"><i class="ft-trash-2"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<ng-template #Edit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit User</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Update or Edit</span></p>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                    <fieldset class="form-group">
+                        <label for="fname">First Name</label>
+                        <input type="text" class="form-control" id="fname" [(ngModel)]="updatedUser.firstName">
+                    </fieldset>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                  <fieldset class="form-group">
+                    <label for="lname">Last Name</label>
+                    <input type="text" class="form-control" id="lname" [(ngModel)]="updatedUser.lastName">
+                </fieldset>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                  <fieldset class="form-group">
+                    <label for="cnic">CNIC</label>
+                    <input type="number" class="form-control" id="cnic" [(ngModel)]="updatedUser.cnic">
+                    <p><small class="text-muted">e.g 1234500000001</small></p>
+                </fieldset>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                  <fieldset class="form-group">
+                    <label for="address">Branch Address</label>
+                    <input type="text" class="form-control" id="address" [(ngModel)]="updatedUser.branchAddress">
+                  </fieldset>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                  <h4>Privileges</h4>
+                  <fieldset style="padding-left: 15px;">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" [(ngModel)]="updatedUser.c1" name="customCheck" id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1" >Invoice review</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [(ngModel)]="updatedUser.c2" name="customCheck" id="customCheck2">
+                        <label class="custom-control-label" for="customCheck2" >Consignments</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [(ngModel)]="updatedUser.c3" name="customCheck" id="customCheck3">
+                        <label class="custom-control-label" for="customCheck3" >HR</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [(ngModel)]="updatedUser.c4" name="customCheck" id="customCheck4">
+                        <label class="custom-control-label" for="customCheck4" >Tracking</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" name="customCheck" [(ngModel)]="updatedUser.c5" id="customCheck5">
+                        <label class="custom-control-label" for="customCheck5" >Manage orders and shipments</label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-xl-8 col-lg-12 col-md-12 mb-1">
+                    <fieldset class="form-group">
+                        <label for="placeTextarea">User Details</label>
+                        <textarea class="form-control" id="placeTextarea" rows="3" placeholder="User Details (1-2 Lines)" [(ngModel)]="updatedUser.detail"></textarea>
+                    </fieldset>
+                </div>
+              </div>
+              <div class="row">
+                  <button class="btn btn-outline-danger btn-block" type="button" (click)="update()">Update</button>
+              </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">close</button>
+    </div>
+</ng-template>
+
