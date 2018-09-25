@@ -4,7 +4,7 @@ import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import { HelperService } from '../helper.service';
 import {Router} from '@angular/router';
 import { FormGroup , Validators, FormBuilder} from '@angular/forms';
-
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   address;
 
   constructor(private helper: HelperService,
-    private router: Router, private fb: FormBuilder
+    private router: Router, private fb: FormBuilder, private api: ApiService
     ) { 
    }
 
@@ -63,8 +63,8 @@ export class HomeComponent implements OnInit {
       (form.value.weight >0 && form.value.length >0 && form.value.width>0 && form.value.height>0) )
     {
       this.order = {
-        to: form.value.destination,
-        from: form.value.from,
+        to: form.value.destination.name,
+        from: form.value.from.name,
         weight: (this.getWeight()>form.value.weight)? this.getWeight() : form.value.weight,
         length: form.value.length,
         width: form.value.width,
@@ -86,6 +86,33 @@ export class HomeComponent implements OnInit {
     {
       this.thirdForm = false;
       this.fourthForm = true;
+    }
+  }
+
+  finish(form){
+    if(form.valid == true && 
+      (form.value.units > 0)){
+
+        this.address = {
+          pickupAddress: form.value.paddress,
+          dropOffAddress: form.value.daddress,
+          name: form.value.name,
+          email: form.value.email,
+          contactNo: form.value.mobile,
+          units: form.value.units
+        };
+
+        console.log(this.order.to);
+        this.api.getCountryName(this.order.to)
+          .pipe(map(actions => actions.map(a=>{
+            const data = a.payload.doc.data();
+            const did = a.payload.doc.id;
+            return{did, ...data};
+          })))
+            .subscribe(res =>{
+              console.log(res);
+            });
+        
     }
   }
 

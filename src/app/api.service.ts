@@ -91,4 +91,8 @@ export class ApiService {
       return this.afs.doc('pricing/'+id).delete();
     }
 
+    //retrieve country data
+    getCountryName(dest){
+      return this.afs.collection('pricing', ref => ref.where('to','==',dest)).snapshotChanges();
+    }
 }
