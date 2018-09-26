@@ -1,0 +1,190 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-1 col-sm-4">
+      <h3 class="content-header-title">Invoices</h3>
+  </div>
+  <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-12 col-sm-4">
+      <div class="breadcrumb-wrapper col-12">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a routerLink="/dashboard/home">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item"><a >Invoices</a>
+              </li>
+          </ol>
+      </div>
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="configuration">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Invoices</h4>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body card-dashboard">
+                <app-spinner *ngIf="showSpinner"></app-spinner>
+                <input type="text"
+                      class="form-control" [(ngModel)]="userFilter.did" placeholder="Search Order Id"  *ngIf="!showSpinner" style="max-width: 300px">
+                      <br>
+                <div class="table-responsive">
+                  <table class="table" *ngIf="!showSpinner">
+                    <thead>
+                      <tr >
+                        <th>Order Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>To</th>
+                        <th>Amount</th>
+                        <th>Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of items | filterBy: userFilter">
+                        <th scope="row">{{item.did}}</th>
+                        <td class="small">{{item.name}}</td>
+                        <td class="small">{{item.email}}</td>
+                        <td class="small">{{item.to}}</td>
+                        <td class="small">{{item.amount}}</td>
+                        <td class="small">
+                            <span style="margin-left: 6px;"></span>
+                          <a style="color: green;" (click)="detail(Invoice, item)"><i class="ft-external-link"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<ng-template #Invoice let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit User</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Invoice</span></p>
+      <div class="card-body" *ngIf="invoice">
+
+        <!-- invoice -->
+        <div id="invoice-company-details" class="row">
+          <div class="col-md-6 col-sm-12 text-center text-md-left">
+              <div class="media">
+                  <div class="media-body">
+                      <ul class="ml-2 px-0 list-unstyled">
+                          <li class="text-bold-800">Tracking Live</li>
+                          <li>address line 1,</li>
+                          <li>address line 2,</li>
+                          <li>address line 3,</li>
+                          <li>Dubai, U.A.E</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-6 col-sm-12 text-center text-md-right">
+              <h2>INVOICE</h2>
+              <p class="pb-3">{{invoice.did}}</p>
+              <ul class="px-0 list-unstyled">
+                  <li>Balance Due</li>
+                  <li class="lead text-bold-800">{{invoice.amount}}</li>
+              </ul>
+          </div>
+      </div>
+      <!--/ Invoice Company Details -->
+      
+      <!-- Invoice Customer Details -->
+      <div id="invoice-customer-details" class="row pt-2">
+          <div class="col-sm-12 text-center text-md-left">
+              <p class="text-muted">Bill To</p>
+          </div>
+          <div class="col-md-6 col-sm-12 text-center text-md-left">
+              <ul class="px-0 list-unstyled">
+                  <li class="text-bold-800">{{invoice.name}}</li>
+                  <li><p class="small">{{invoice.pickupAddress}}</p></li>
+              </ul>
+          </div>
+          <div class="col-md-6 col-sm-12 text-center text-md-right">
+              <p><span class="text-muted">Invoice Date :</span> {{ getDate(invoice.date)}}</p>
+          </div>
+      </div>
+      <!--/ Invoice Customer Details -->
+      
+      <!-- Invoice Items Details -->
+      <div id="invoice-items-details" class="pt-2">
+          <div class="row">
+              <div class="table-responsive col-sm-12">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th>#</th>
+                              <th>To</th>
+                              <th class="text-right">Units</th>
+                              <th class="text-right">Weight</th>
+                              <th class="text-right">Status</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <th scope="row">1</th>
+                              <td>
+                                  {{invoice.to}}
+                              </td>
+                              <td class="text-right">{{invoice.units}}</td>
+                              <td class="text-right">{{invoice.weight}}</td>
+                              <td class="text-right">{{invoice.status}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-7 col-sm-12 text-center text-md-left">
+                  <p class="lead">Payment Methods:</p>
+                  <div class="row">
+                      <div class="col-md-8">
+                          <table class="table table-borderless table-sm">
+                              <tbody>
+                                  <tr>
+                                      <td>Bank name:</td>
+                                      <td class="text-right">{{invoice.paymentMethod}}</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-5 col-sm-12">
+                  <p class="lead">Total due</p>
+                  <div class="table-responsive">
+                      <table class="table">
+                          <tbody>
+                              <tr>
+                                  <td>Per Unit</td>
+                                  <td class="text-right">{{invoice.ratePerItem}}</td>
+                              </tr>
+                              <tr class="bg-grey bg-lighten-4">
+                                  <td class="text-bold-800">Balance Due</td>
+                                  <td class="text-bold-800 text-right">{{invoice.amount}}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+        <!-- invoice end -->
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">close</button>
+  </div>
+</ng-template>

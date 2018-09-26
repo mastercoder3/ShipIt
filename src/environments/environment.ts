@@ -11,7 +11,8 @@ export const environment = {
     projectId: "trackinglive-89835",
     storageBucket: "trackinglive-89835.appspot.com",
     messagingSenderId: "1088365011407"
-  }
+  },
+  stripeKey: 'pk_test_i6Mjxq8jwet6IoCyw8AHgz6S'
 };
 
 /*

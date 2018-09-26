@@ -95,4 +95,22 @@ export class ApiService {
     getCountryName(dest){
       return this.afs.collection('pricing', ref => ref.where('to','==',dest)).snapshotChanges();
     }
+    //get price
+    getCountryPrices(id,weight){      
+      return this.afs.collection('rates', ref => ref.where('id','==',id).where('maxweight','>=',weight)).snapshotChanges();
+    }
+
+    setBill(order){
+      return this.afs.collection('orders').add(order);
+    }
+
+    processPayment(id,amount,token: any){
+      const payment = {id: id, token, amount};
+      return this.afs.collection('payments').add(payment);
+    }
+
+    //return orders by id
+    getOrder(uid){
+      return this.afs.collection('orders', ref=> ref.where('userId', '==', uid)).snapshotChanges();
+    }
 }

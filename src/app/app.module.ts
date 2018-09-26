@@ -36,6 +36,7 @@ import { ModifyUserComponent } from './modify-user/modify-user.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { PricingComponent } from './pricing/pricing.component';
 import { RatesComponent } from './rates/rates.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { RatesComponent } from './rates/rates.component';
     AdminLoginComponent,
     PricingComponent,
     RatesComponent,
+    InvoiceComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,7 +85,8 @@ import { RatesComponent } from './rates/rates.component';
         {path: 'modify-user', component: ModifyUserComponent},
         {path: 'pricing', component: PricingComponent},
         {path: 'rates/:id', component: RatesComponent},
-        {path: 'rates', component: RatesComponent}
+        {path: 'rates', component: RatesComponent},
+        {path: 'invoice', component: InvoiceComponent}
       ], canActivate: [AuthGaurdService]}
     ])
     
